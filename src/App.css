@@ -1,178 +1,317 @@
-/* Denne regelen setter bredde og grunnstruktur for hele siden */
-.page-wrapper {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
-  color: #ffffff;
+:root {
+  --bg-dark: #050506;
+  --bg-panel: #141217;
+  --bg-panel-soft: #1c1821;
+  --accent: #f5b754;
+  --accent-soft: rgba(245, 183, 84, 0.16);
+  --accent-strong: #e49b2f;
+  --text-main: #f5f1ea;
+  --text-soft: #c8c1b5;
+  --text-muted: #8c8375;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --shadow-strong: 0 22px 60px rgba(0, 0, 0, 0.65);
 }
 
-/* Denne seksjonen lager hovedlayouten i hero-delen */
-.hero-section {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-dark);
+}
+
+a {
+  text-decoration: none;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0.85rem 1.5rem 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 6, 0.96),
+    rgba(5, 5, 6, 0.85),
+    transparent
+  );
+}
+
+.navbar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 5rem 1.5rem 4rem;
+  padding: 0.7rem 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: radial-gradient(circle at top left, #272034, #151018 60%, #09070b);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  box-shadow: var(--shadow-strong);
+  backdrop-filter: blur(10px);
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  color: var(--text-soft);
+  font-weight: 600;
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  transition: all 0.22s ease;
+  font-size: 0.94rem;
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #120c05;
+}
+
+/* Side-wrapper med mørk bakgrunn */
+.page-wrapper {
+  min-height: 100vh;
+  padding: 2.2rem 1.5rem 4rem;
+  background-color: var(--bg-dark);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Inner pages kan ha egen layout, men samme mørke bakgrunn */
+.page-inner {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Forside / hero */
+.hero-section {
+  max-width: 1200px;
+  margin: 2.5rem auto 0;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
   gap: 3rem;
+  align-items: center;
 }
 
-/* Denne boksen holder teksten på venstre side */
 .hero-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  background: radial-gradient(circle at top left, #251a32, #151018 58%, #09070c);
+  padding: 2.4rem 2.6rem;
+  border-radius: 28px;
+  box-shadow: var(--shadow-strong);
+  border: 1px solid rgba(245, 183, 84, 0.32);
 }
 
-/* Denne lille etiketten gir et moderne "badge"-utseende */
 .hero-badge {
   display: inline-block;
-  width: fit-content;
-  padding: 0.45rem 0.9rem;
+  margin-bottom: 1rem;
+  padding: 0.32rem 0.9rem;
   border-radius: 999px;
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  color: #fbbf24;
-  font-size: 0.9rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(245, 183, 84, 0.4);
+  color: var(--accent);
+  font-size: 0.78rem;
   font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
-/* Dette er hovedoverskriften i hero-seksjonen */
 .hero-text h1 {
-  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  margin: 0 0 1.1rem;
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
   line-height: 1.05;
-  max-width: 11ch;
+  color: var(--text-main);
 }
 
-/* Dette er den korte forklaringsteksten under overskriften */
 .hero-text p {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #d1d5db;
-  max-width: 58ch;
+  margin: 0 0 1.8rem;
+  max-width: 620px;
+  font-size: 1.04rem;
+  line-height: 1.8;
+  color: var(--text-soft);
 }
 
-/* Denne wrapperen holder knappene ved siden av hverandre */
 .hero-buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-top: 0.5rem;
 }
 
-/* Dette er hovedknappen som skal få mest oppmerksomhet */
-.primary-btn {
-  display: inline-block;
-  background: linear-gradient(135deg, #f59e0b, #fb923c);
-  color: #111827;
-  padding: 0.9rem 1.25rem;
-  border-radius: 999px;
-  font-weight: 800;
-  text-decoration: none;
-  transition: 0.2s ease;
-}
-
-/* Denne hover-effekten gjør hovedknappen litt mer levende */
-.primary-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.96;
-}
-
-/* Dette er sekundærknappen med mer diskret utseende */
+.primary-btn,
 .secondary-btn {
-  display: inline-block;
-  padding: 0.9rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0.85rem 1.4rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
-  font-weight: 700;
-  text-decoration: none;
-  transition: 0.2s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.22s ease;
 }
 
-/* Denne hover-effekten gjør sekundærknappen tydeligere ved hover */
+.primary-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #120c05;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7);
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: var(--text-soft);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
 .secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
 }
 
-/* Denne wrapperen sentrerer bildet i hero-delen */
 .hero-image-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
-/* Dette styler selve hero-bildet */
 .hero-image {
-  width: min(100%, 420px);
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.35));
-  border-radius: 1.5rem;
+  width: min(100%, 460px);
+  border-radius: 28px;
+  box-shadow: var(--shadow-strong);
 }
 
-/* Denne seksjonen viser tre kort under hero-delen */
+/* Kort / seksjoner */
 .features-section {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 5rem;
+  margin: 3rem auto 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
-/* Dette er utseendet til hvert informasjonskort */
+.feature-card,
+.content-section {
+  background: radial-gradient(circle at top left, #231b2e, #151118 58%, #070509);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 22px;
+  box-shadow: var(--shadow-strong);
+}
+
 .feature-card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  padding: 1.5rem;
-  border-radius: 1.25rem;
-  transition: 0.2s ease;
+  padding: 1.8rem;
 }
 
-/* Denne hover-effekten gir kortene litt liv */
-.feature-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* Dette er overskriften inne i hvert kort */
 .feature-card h2 {
-  margin-bottom: 0.8rem;
-  font-size: 1.2rem;
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+  color: var(--text-main);
 }
 
-/* Dette er teksten inne i hvert kort */
 .feature-card p {
-  color: #d1d5db;
-  line-height: 1.6;
+  margin: 0;
+  line-height: 1.7;
+  color: var(--text-soft);
 }
 
-/* Denne delen gjør layouten mer mobilvennlig på mindre skjermer */
+/* Innholdssider */
+.content-section {
+  max-width: 880px;
+  margin: 3rem auto 0;
+  padding: 2.3rem;
+}
+
+.content-section h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 3.3vw, 3.1rem);
+  color: var(--text-main);
+}
+
+.content-section p {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text-soft);
+}
+
+/* Responsivitet */
 @media (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 24px;
+  }
+
+  .nav-links {
+    width: 100%;
+  }
+
   .hero-section {
     grid-template-columns: 1fr;
-    text-align: center;
-    padding-top: 3.5rem;
-  }
-
-  .hero-text {
-    align-items: center;
-  }
-
-  .hero-text h1 {
-    max-width: 14ch;
-  }
-
-  .hero-text p {
-    max-width: 100%;
-  }
-
-  .hero-buttons {
-    justify-content: center;
+    margin-top: 2rem;
   }
 
   .features-section {
     grid-template-columns: 1fr;
+  }
+
+  .hero-text,
+  .content-section {
+    padding: 1.6rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    padding: 0.6rem 1rem 0;
+  }
+
+  .page-wrapper {
+    padding: 1.3rem 1rem 3rem;
+  }
+
+  .nav-links {
+    gap: 0.5rem;
+  }
+
+  .nav-btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.9rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
   }
 }
