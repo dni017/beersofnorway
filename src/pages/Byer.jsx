@@ -1,24 +1,28 @@
 // src/pages/Byer.jsx
-// Oversiktsside for norske ølbyer
-// Viser et rutenett av byer som brukeren kan klikke seg inn på
+// Oversiktsside for norske ølbyer med bilde på hvert bykort
 import { useNavigate } from 'react-router-dom'
 import olKartImg from '../assets/øl-kart.png'
+import tromsoBilde from '../assets/tromso.jpg'
+import bergenBilde from '../assets/bergen.jpeg'
+import osloBilde from '../assets/oslo.jpg'
+import trondheimBilde from '../assets/trondheim.jpg'
+import stavangerBilde from '../assets/stavanger.jpg'
+import kristiansandBilde from '../assets/kristiansand.jpg'
 import '../App.css'
 
-// Liste over byer - legg til flere her etterhvert
+// Liste over byer med tilhørende bilde
 const BYER = [
-  { id: 'tromso', navn: 'Tromsø', aktiv: true },
-  { id: 'bergen', navn: 'Bergen', aktiv: true },
-  { id: 'oslo', navn: 'Oslo', aktiv: true },
-  { id: 'trondheim', navn: 'Trondheim', aktiv: true },
-  { id: 'stavanger', navn: 'Stavanger', aktiv: true },
-  { id: 'kristiansand', navn: 'Kristiansand', aktiv: true },
+  { id: 'tromso', navn: 'Tromsø', aktiv: true, bilde: tromsoBilde },
+  { id: 'bergen', navn: 'Bergen', aktiv: true, bilde: bergenBilde },
+  { id: 'oslo', navn: 'Oslo', aktiv: true, bilde: osloBilde },
+  { id: 'trondheim', navn: 'Trondheim', aktiv: true, bilde: trondheimBilde },
+  { id: 'stavanger', navn: 'Stavanger', aktiv: true, bilde: stavangerBilde },
+  { id: 'kristiansand', navn: 'Kristiansand', aktiv: true, bilde: kristiansandBilde },
 ]
 
 function Byer() {
   const navigate = useNavigate()
 
-  // Naviger til bysiden hvis byen er aktiv, ellers gjør ingenting
   const handleByeKlikk = (by) => {
     if (by.aktiv) {
       navigate(`/byer/${by.id}`)
@@ -65,7 +69,6 @@ function Byer() {
               cursor: by.aktiv ? 'pointer' : 'default',
               border: '1px solid rgba(255,255,255,0.06)',
               boxShadow: '0 22px 60px rgba(0,0,0,0.65)',
-              background: 'radial-gradient(circle at top left, #231b2e, #151118 58%, #070509)',
               transition: 'transform 0.22s ease, box-shadow 0.22s ease',
             }}
             onMouseEnter={(e) => {
@@ -79,17 +82,31 @@ function Byer() {
               e.currentTarget.style.boxShadow = '0 22px 60px rgba(0,0,0,0.65)'
             }}
           >
-            {/* Overlay-gradient for lesbarhet */}
+            {/* Bybilde som bakgrunn */}
+            <img
+              src={by.bilde}
+              alt={by.navn}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 0,
+              }}
+            />
+
+            {/* Mørk overlay-gradient for lesbarhet */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to top, rgba(5,5,6,0.85) 0%, rgba(5,5,6,0.3) 60%, transparent 100%)',
+                background: 'linear-gradient(to top, rgba(5,5,6,0.9) 0%, rgba(5,5,6,0.4) 60%, transparent 100%)',
                 zIndex: 1,
               }}
             />
 
-            {/* Bynavn */}
+            {/* Bynavn og badge */}
             <div
               style={{
                 position: 'absolute',
@@ -107,7 +124,7 @@ function Byer() {
                 {by.navn}
               </h2>
 
-              {/* Viser "Kommer snart" for byer som ikke er aktive ennå */}
+              {/* Kommer snart for inaktive byer */}
               {!by.aktiv && (
                 <span style={{
                   display: 'inline-block',
@@ -126,7 +143,7 @@ function Byer() {
                 </span>
               )}
 
-              {/* Viser "Utforsk" for aktive byer */}
+              {/* Utforsk for aktive byer */}
               {by.aktiv && (
                 <span style={{
                   display: 'inline-block',
@@ -148,16 +165,6 @@ function Byer() {
           </article>
         ))}
       </section>
-
-      {/* Responsivitet for mobil */}
-      <style>{`
-        @media (max-width: 900px) {
-          .by-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 560px) {
-          .by-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </main>
   )
 }

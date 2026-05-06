@@ -1,23 +1,28 @@
 // src/pages/Pubcrawl.jsx
-// Oversiktsside for pubcrawl - samme layout som Byer-siden
+// Oversiktsside for pubcrawl med bilde på hvert bykort
 import { useNavigate } from 'react-router-dom'
 import olKartImg from '../assets/øl-kart.png'
+import tromsoBilde from '../assets/pubcrawl-tromso.webp'
+import bergenBilde from '../assets/pubcrawl-bergen.jpg'
+import osloBilde from '../assets/pubcrawl-oslo.webp'
+import trondheimBilde from '../assets/pubcrawl-trondheim.jpg'
+import stavangerBilde from '../assets/pubcrawl-stavanger.png'
+import kristiansandBilde from '../assets/pubcrawl-kristiansand.jpg'
 import '../App.css'
 
-// Liste over byer med pubcrawl - legg til flere etterhvert
+// Liste over byer med tilhørende pubcrawl-bilde
 const BYER = [
-  { id: 'tromso', navn: 'Tromsø', aktiv: true },
-  { id: 'bergen', navn: 'Bergen', aktiv: true },
-  { id: 'oslo', navn: 'Oslo', aktiv: true },
-  { id: 'trondheim', navn: 'Trondheim', aktiv: true },
-  { id: 'stavanger', navn: 'Stavanger', aktiv: true },
-  { id: 'kristiansand', navn: 'Kristiansand', aktiv: true },
+  { id: 'tromso', navn: 'Tromsø', aktiv: true, bilde: tromsoBilde },
+  { id: 'bergen', navn: 'Bergen', aktiv: true, bilde: bergenBilde },
+  { id: 'oslo', navn: 'Oslo', aktiv: true, bilde: osloBilde },
+  { id: 'trondheim', navn: 'Trondheim', aktiv: true, bilde: trondheimBilde },
+  { id: 'stavanger', navn: 'Stavanger', aktiv: true, bilde: stavangerBilde },
+  { id: 'kristiansand', navn: 'Kristiansand', aktiv: true, bilde: kristiansandBilde },
 ]
 
 function Pubcrawl() {
   const navigate = useNavigate()
 
-  // Naviger til pubcrawl-siden for byen hvis den er aktiv
   const handleByeKlikk = (by) => {
     if (by.aktiv) {
       navigate(`/pubcrawl/${by.id}`)
@@ -64,7 +69,6 @@ function Pubcrawl() {
               cursor: by.aktiv ? 'pointer' : 'default',
               border: '1px solid rgba(255,255,255,0.06)',
               boxShadow: '0 22px 60px rgba(0,0,0,0.65)',
-              background: 'radial-gradient(circle at top left, #231b2e, #151118 58%, #070509)',
               transition: 'transform 0.22s ease, box-shadow 0.22s ease',
             }}
             onMouseEnter={(e) => {
@@ -78,12 +82,26 @@ function Pubcrawl() {
               e.currentTarget.style.boxShadow = '0 22px 60px rgba(0,0,0,0.65)'
             }}
           >
-            {/* Overlay-gradient for lesbarhet */}
+            {/* Pubcrawl-bilde som bakgrunn */}
+            <img
+              src={by.bilde}
+              alt={by.navn}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 0,
+              }}
+            />
+
+            {/* Mørk overlay-gradient for lesbarhet */}
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to top, rgba(5,5,6,0.85) 0%, rgba(5,5,6,0.3) 60%, transparent 100%)',
+                background: 'linear-gradient(to top, rgba(5,5,6,0.9) 0%, rgba(5,5,6,0.4) 60%, transparent 100%)',
                 zIndex: 1,
               }}
             />
@@ -125,7 +143,7 @@ function Pubcrawl() {
                 </span>
               )}
 
-              {/* Utforsk for aktive byer */}
+              {/* Se pubcrawls for aktive byer */}
               {by.aktiv && (
                 <span style={{
                   display: 'inline-block',
