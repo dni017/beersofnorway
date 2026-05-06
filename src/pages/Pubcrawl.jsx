@@ -7,11 +7,11 @@ import '../App.css'
 // Liste over byer med pubcrawl - legg til flere etterhvert
 const BYER = [
   { id: 'tromso', navn: 'Tromsø', aktiv: true },
-  { id: 'bergen', navn: 'Bergen', aktiv: false },
-  { id: 'oslo', navn: 'Oslo', aktiv: false },
-  { id: 'trondheim', navn: 'Trondheim', aktiv: false },
-  { id: 'stavanger', navn: 'Stavanger', aktiv: false },
-  { id: 'kristiansand', navn: 'Kristiansand', aktiv: false },
+  { id: 'bergen', navn: 'Bergen', aktiv: true },
+  { id: 'oslo', navn: 'Oslo', aktiv: true },
+  { id: 'trondheim', navn: 'Trondheim', aktiv: true },
+  { id: 'stavanger', navn: 'Stavanger', aktiv: true },
+  { id: 'kristiansand', navn: 'Kristiansand', aktiv: true },
 ]
 
 function Pubcrawl() {

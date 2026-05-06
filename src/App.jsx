@@ -11,6 +11,11 @@ import Stavanger from './pages/Stavanger'
 import Kristiansand from './pages/Kristiansand'
 import Pubcrawl from './pages/Pubcrawl'
 import PubcrawlTromso from './pages/PubcrawlTromso'
+import PubcrawlBergen from './pages/PubcrawlBergen'
+import PubcrawlOslo from './pages/PubcrawlOslo'
+import PubcrawlTrondheim from './pages/PubcrawlTrondheim'
+import PubcrawlStavanger from './pages/PubcrawlStavanger'
+import PubcrawlKristiansand from './pages/PubcrawlKristiansand'
 import Omoss from './pages/Omoss'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -36,6 +41,11 @@ function App() {
         {/* Pubcrawl-sider */}
         <Route path="/pubcrawl" element={<Pubcrawl />} />
         <Route path="/pubcrawl/tromso" element={<PubcrawlTromso />} />
+        <Route path="/pubcrawl/bergen" element={<PubcrawlBergen />} />
+        <Route path="/pubcrawl/oslo" element={<PubcrawlOslo />} />
+        <Route path="/pubcrawl/trondheim" element={<PubcrawlTrondheim />} />
+        <Route path="/pubcrawl/stavanger" element={<PubcrawlStavanger />} />
+        <Route path="/pubcrawl/kristiansand" element={<PubcrawlKristiansand />} />
 
         <Route path="/omoss" element={<Omoss />} />
 
