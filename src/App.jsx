@@ -16,6 +16,7 @@ import PubcrawlOslo from './pages/PubcrawlOslo'
 import PubcrawlTrondheim from './pages/PubcrawlTrondheim'
 import PubcrawlStavanger from './pages/PubcrawlStavanger'
 import PubcrawlKristiansand from './pages/PubcrawlKristiansand'
+import PubGolfTromso from './pages/PubGolfTromso'
 import Omoss from './pages/Omoss'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -41,6 +42,7 @@ function App() {
         {/* Pubcrawl-sider */}
         <Route path="/pubcrawl" element={<Pubcrawl />} />
         <Route path="/pubcrawl/tromso" element={<PubcrawlTromso />} />
+        <Route path="/pubcrawl/tromso/pubgolf" element={<PubGolfTromso />} />
         <Route path="/pubcrawl/bergen" element={<PubcrawlBergen />} />
         <Route path="/pubcrawl/oslo" element={<PubcrawlOslo />} />
         <Route path="/pubcrawl/trondheim" element={<PubcrawlTrondheim />} />

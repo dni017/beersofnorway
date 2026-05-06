@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import olKartImg from '../assets/øl-kart.png'
 import '../App.css'
 
-// Pubcrawl-forslag for Tromsø - legg til flere her etterhvert
 const PUBCRAWLS = [
   {
     id: 1,
@@ -15,6 +14,7 @@ const PUBCRAWLS = [
     estimertPris: '200-300 kr',
     varighet: '3-4 timer',
     stoppesteder: ['Ølhallen', 'Blå Rock Cafe', 'Skarven', 'Verdensteatret'],
+    erPubGolf: false,
   },
   {
     id: 2,
@@ -25,6 +25,7 @@ const PUBCRAWLS = [
     estimertPris: '400-600 kr',
     varighet: '4-5 timer',
     stoppesteder: ['Ølhallen', 'Skarven', 'Blå Rock Cafe', 'Amundsen', 'Verdensteatret', 'Sjømatrestauranten', 'Driv', 'Compagniet', 'Victoria'],
+    erPubGolf: true,
   },
   {
     id: 3,
@@ -35,6 +36,7 @@ const PUBCRAWLS = [
     estimertPris: '300-450 kr',
     varighet: '2-3 timer',
     stoppesteder: ['Ølhallen', 'Skarven', 'Blå Rock Cafe'],
+    erPubGolf: false,
   },
   {
     id: 4,
@@ -45,6 +47,7 @@ const PUBCRAWLS = [
     estimertPris: '350-500 kr',
     varighet: '4-5 timer',
     stoppesteder: ['Ølhallen', 'Skarven', 'Amundsen', 'Compagniet', 'Victoria'],
+    erPubGolf: false,
   },
   {
     id: 5,
@@ -55,6 +58,7 @@ const PUBCRAWLS = [
     estimertPris: '250-400 kr',
     varighet: '5-6 timer',
     stoppesteder: ['Ølhallen', 'Nordlys-pause', 'Skarven'],
+    erPubGolf: false,
   },
   {
     id: 6,
@@ -65,6 +69,7 @@ const PUBCRAWLS = [
     estimertPris: '150-250 kr',
     varighet: '3-4 timer',
     stoppesteder: ['Driv', 'Blå Rock Cafe', 'Skarven', 'Ølhallen'],
+    erPubGolf: false,
   },
 ]
 
@@ -143,23 +148,20 @@ function PubcrawlTromso() {
             {/* Stoppesteder */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
               {crawl.stoppesteder.map((stopp, index) => (
-                <span
-                  key={index}
-                  style={{
-                    padding: '0.2rem 0.6rem',
-                    borderRadius: '999px',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    color: 'var(--text-muted)',
-                    fontSize: '0.75rem',
-                  }}
-                >
+                <span key={index} style={{
+                  padding: '0.2rem 0.6rem',
+                  borderRadius: '999px',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  color: 'var(--text-muted)',
+                  fontSize: '0.75rem',
+                }}>
                   {stopp}
                 </span>
               ))}
             </div>
 
-            {/* Statistikk - antall stopp, pris og varighet */}
+            {/* Statistikk */}
             <div style={{
               marginTop: 'auto',
               paddingTop: '1rem',
@@ -168,30 +170,29 @@ function PubcrawlTromso() {
               gap: '1.5rem',
             }}>
               <div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  Antall stopp
-                </p>
-                <p style={{ margin: '0.2rem 0 0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent)' }}>
-                  {crawl.antallStopp}
-                </p>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Antall stopp</p>
+                <p style={{ margin: '0.2rem 0 0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--accent)' }}>{crawl.antallStopp}</p>
               </div>
               <div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  Estimert pris
-                </p>
-                <p style={{ margin: '0.2rem 0 0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-soft)' }}>
-                  {crawl.estimertPris}
-                </p>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Estimert pris</p>
+                <p style={{ margin: '0.2rem 0 0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-soft)' }}>{crawl.estimertPris}</p>
               </div>
               <div>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  Varighet
-                </p>
-                <p style={{ margin: '0.2rem 0 0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-soft)' }}>
-                  {crawl.varighet}
-                </p>
+                <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Varighet</p>
+                <p style={{ margin: '0.2rem 0 0', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-soft)' }}>{crawl.varighet}</p>
               </div>
             </div>
+
+            {/* Knapp til pub golf scorekort-siden */}
+            {crawl.erPubGolf && (
+              <button
+                onClick={() => navigate('/pubcrawl/tromso/pubgolf')}
+                className="primary-btn"
+                style={{ marginTop: '0.5rem', width: '100%' }}
+              >
+                🏌️ Start pub golf
+              </button>
+            )}
           </article>
         ))}
       </section>
