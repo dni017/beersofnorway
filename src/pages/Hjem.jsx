@@ -35,6 +35,160 @@ const hentTreBilligste = (bydata) => {
     .slice(0, 3)
 }
 
+// Regner ut fyllnivå i prosent basert på stemmer, der 2000 stemmer = 100 %
+// Verdien rundes ned til nærmeste 10 % for tydelige trinn i glasset
+const hentFyllProsent = (stemmer) => {
+  const prosent = Math.min((Number(stemmer || 0) / 2000) * 100, 100)
+  return Math.floor(prosent / 10) * 10
+}
+
+// Liten komponent som tegner et ølglass med fyllnivå basert på prosent
+function BeerGlass({ percent }) {
+  // Regner ut hvor høyt ølet skal være i glasset
+  const fillHeight = (percent / 100) * 52
+  // Regner ut y-posisjonen til ølet slik at det fylles nedenfra og opp
+  const fillY = 64 - fillHeight
+
+  return (
+    // Wrapper for SVG-glasset
+    <div
+      style={{
+        width: '54px',
+        minWidth: '54px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {/* SVG brukes for å tegne glasset og fyllet inni */}
+      <svg width="42" height="72" viewBox="0 0 42 72" aria-hidden="true">
+        {/* Definerer gradienter som gir ølet mer glød og dybde */}
+        <defs>
+          <linearGradient id="beerGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#f8c75b" />
+            <stop offset="55%" stopColor="#e7a72e" />
+            <stop offset="100%" stopColor="#c97d12" />
+          </linearGradient>
+
+          <linearGradient id="foamGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#fffdf8" />
+            <stop offset="100%" stopColor="#efe6d7" />
+          </linearGradient>
+        </defs>
+
+        {/* Tegner selve ølet inni glasset, høyden styres av prosentnivået */}
+        <rect
+          x="9"
+          y={fillY}
+          width="18"
+          height={fillHeight}
+          rx="2"
+          fill="url(#beerGradient)"
+          style={{ transition: 'all 0.35s ease' }}
+        />
+
+        {/* Tegner små bobler i ølet når glasset har innhold */}
+        {percent > 0 && (
+          <>
+            <circle
+              cx="14"
+              cy={Math.max(fillY + 10, 16)}
+              r="1.3"
+              fill="rgba(255, 248, 220, 0.45)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+            <circle
+              cx="19"
+              cy={Math.max(fillY + 20, 24)}
+              r="1.1"
+              fill="rgba(255, 248, 220, 0.35)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+            <circle
+              cx="22.5"
+              cy={Math.max(fillY + 12, 18)}
+              r="1.2"
+              fill="rgba(255, 248, 220, 0.4)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+            <circle
+              cx="16.5"
+              cy={Math.max(fillY + 28, 30)}
+              r="0.9"
+              fill="rgba(255, 248, 220, 0.28)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+          </>
+        )}
+
+        {/* Tegner skum på toppen når glasset har innhold */}
+        {percent > 0 && (
+          <>
+            <rect
+              x="9"
+              y={Math.max(fillY - 4, 8)}
+              width="18"
+              height="6"
+              rx="3"
+              fill="url(#foamGradient)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+            <circle
+              cx="12"
+              cy={Math.max(fillY - 1, 10)}
+              r="3"
+              fill="url(#foamGradient)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+            <circle
+              cx="18"
+              cy={Math.max(fillY - 3, 9)}
+              r="4"
+              fill="url(#foamGradient)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+            <circle
+              cx="24"
+              cy={Math.max(fillY - 1, 10)}
+              r="3.2"
+              fill="url(#foamGradient)"
+              style={{ transition: 'all 0.35s ease' }}
+            />
+          </>
+        )}
+
+        {/* Tegner en lys refleks på glasset for mer "glassfølelse" */}
+        <path
+          d="M13 12C13 12 11.8 23 11.8 34C11.8 45 12.6 58 12.6 58"
+          fill="none"
+          stroke="rgba(255,255,255,0.22)"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+
+        {/* Tegner omrisset av glasset */}
+        <path
+          d="M9 8H27L25 64H11L9 8Z"
+          fill="none"
+          stroke="rgba(255,255,255,0.78)"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+
+        {/* Tegner håndtaket på glasset */}
+        <path
+          d="M27 16H31C34 16 35 18 35 21V35C35 38 34 40 31 40H27"
+          fill="none"
+          stroke="rgba(255,255,255,0.78)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  )
+}
+
 // Definerer komponenten for forsiden
 function Hjem() {
   // useNavigate brukes for å sende brukeren til en bestemt underside ved klikk
@@ -242,33 +396,57 @@ function Hjem() {
               marginTop: '1.5rem',
             }}
           >
-            {byer.map((by) => (
-              // Hvert kort viser én by og stemmetallet dens
-              <article
-                key={by.id}
-                className="feature-card"
-                style={{ minHeight: '160px' }}
-              >
-                {/* Viser bynavnet */}
-                <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>
-                  {by.navn || 'Ukjent by'}
-                </h3>
+            {byer.map((by) => {
+              // Regner ut fyllnivået i glasset for denne byen
+              const fillPercent = hentFyllProsent(by.stemmer)
 
-                {/* Viser antall stemmer registrert på byen */}
-                <p style={{ marginBottom: '0.75rem' }}>
-                  <strong>Stemmer:</strong> {by.stemmer ?? 0}
-                </p>
-
-                {/* Knapp som lar brukeren stemme på denne byen */}
-                <button
-                  type="button"
-                  className="secondary-btn"
-                  onClick={() => stemPåBy(by.id)}
+              return (
+                // Hvert kort viser én by og stemmetallet dens
+                <article
+                  key={by.id}
+                  className="feature-card"
+                  style={{ minHeight: '160px' }}
                 >
-                  Stem på {by.navn || 'byen'}
-                </button>
-              </article>
-            ))}
+                  {/* Wrapper som plasserer bytekst og ølglass ved siden av hverandre */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '1rem',
+                      marginBottom: '0.75rem',
+                    }}
+                  >
+                    {/* Viser bynavnet */}
+                    <h3 style={{ margin: 0 }}>
+                      {by.navn || 'Ukjent by'}
+                    </h3>
+
+                    {/* Viser ølglasset med riktig fyllnivå */}
+                    <BeerGlass percent={fillPercent} />
+                  </div>
+
+                  {/* Viser antall stemmer registrert på byen */}
+                  <p style={{ marginBottom: '0.35rem' }}>
+                    <strong>Stemmer:</strong> {by.stemmer ?? 0}
+                  </p>
+
+                  {/* Viser prosentnivået som glasset er fylt til */}
+                  <p style={{ marginBottom: '0.9rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                    Ølglass fylt: {fillPercent} %
+                  </p>
+
+                  {/* Knapp som lar brukeren stemme på denne byen */}
+                  <button
+                    type="button"
+                    className="secondary-btn"
+                    onClick={() => stemPåBy(by.id)}
+                  >
+                    Stem på {by.navn || 'byen'}
+                  </button>
+                </article>
+              )
+            })}
           </div>
         )}
       </section>
