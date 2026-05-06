@@ -56,15 +56,46 @@ a {
   backdrop-filter: blur(10px);
 }
 
+/* NORSK FLAGG-STIL PÅ LOGO-LENKA (hjem-knappen) */
 .logo-link {
   display: inline-flex;
   align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+
+  /* Flagginspirert bakgrunn: rød base med hvit/blå stripe */
+  background: linear-gradient(
+    135deg,
+    #ba0c2f 0%,
+    #ba0c2f 40%,
+    #ffffff 45%,
+    #00205b 55%,
+    #00205b 100%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+}
+
+/* Liten lysning ved hover for tydelig knappfølelse */
+.logo-link:hover {
+  filter: brightness(1.07);
 }
 
 .logo {
   height: 42px;
   width: auto;
   display: block;
+}
+
+/* Tekst ved siden av logoen (Beersofnorway) */
+.logo-text {
+  margin-left: 0.1rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
 .nav-links {
@@ -261,6 +292,29 @@ a {
   color: var(--text-soft);
 }
 
+/* Skjema/innlogging (auth) */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.auth-input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-main);
+  font-size: 0.98rem;
+}
+
+.auth-input::placeholder {
+  color: var(--text-muted);
+}
+
 /* Responsivitet */
 @media (max-width: 900px) {
   .navbar {
@@ -314,25 +368,4 @@ a {
   .secondary-btn {
     width: 100%;
   }
-}
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.auth-input {
-  width: 100%;
-  min-height: 46px;
-  padding: 0.85rem 1rem;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--text-main);
-  font-size: 0.98rem;
-}
-
-.auth-input::placeholder {
-  color: var(--text-muted);
 }
