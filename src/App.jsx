@@ -10,6 +10,7 @@ import Trondheim from './pages/Trondheim'
 import Stavanger from './pages/Stavanger'
 import Kristiansand from './pages/Kristiansand'
 import Pubcrawl from './pages/Pubcrawl'
+import PubcrawlTromso from './pages/PubcrawlTromso'
 import Omoss from './pages/Omoss'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -32,7 +33,10 @@ function App() {
         <Route path="/byer/stavanger" element={<Stavanger />} />
         <Route path="/byer/kristiansand" element={<Kristiansand />} />
 
+        {/* Pubcrawl-sider */}
         <Route path="/pubcrawl" element={<Pubcrawl />} />
+        <Route path="/pubcrawl/tromso" element={<PubcrawlTromso />} />
+
         <Route path="/omoss" element={<Omoss />} />
 
         {/* Auth-sider */}
