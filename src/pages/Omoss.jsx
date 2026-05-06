@@ -18,7 +18,7 @@ function Omoss() {
         </p>
       </section>
     </main>
-  )
+  ) 
 }
 
 export default Omoss
