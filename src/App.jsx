@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Hjem from './pages/Hjem'
 import Byer from './pages/Byer'
+import Tromso from './pages/Tromso'
 import Pubcrawl from './pages/Pubcrawl'
 import Omoss from './pages/Omoss'
 import Login from './pages/Login'
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Hjem />} />
         <Route path="/byer" element={<Byer />} />
+        <Route path="/byer/tromso" element={<Tromso />} />
         <Route path="/pubcrawl" element={<Pubcrawl />} />
         <Route path="/omoss" element={<Omoss />} />
 
