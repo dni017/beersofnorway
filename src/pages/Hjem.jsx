@@ -1,10 +1,17 @@
 // src/pages/Hjem.jsx
+
+// Importerer React-hooks for state og side-effekter
 import { useEffect, useState } from 'react'
+// Importerer navigasjon og lenker fra React Router
 import { useNavigate, Link } from 'react-router-dom'
-import { collection, getDocs } from 'firebase/firestore'
+// Importerer Firestore-funksjoner for å hente og oppdatere dokumenter
+import { collection, getDocs, doc, updateDoc, increment } from 'firebase/firestore'
+// Importerer Firestore-instansen fra prosjektets firebase-fil
 import { db } from "../firebase/firebase"
+// Importerer bildene som brukes på forsiden
 import beerCheersImg from '../assets/øl-skål.png'
 import olKartImg from '../assets/øl-kart.png'
+// Importerer hovedstilen for siden
 import '../App.css'
 
 // Bydata med priser - hold synkronisert med de individuelle bysidene
@@ -28,34 +35,73 @@ const hentTreBilligste = (bydata) => {
     .slice(0, 3)
 }
 
+// Definerer komponenten for forsiden
 function Hjem() {
+  // useNavigate brukes for å sende brukeren til en bestemt underside ved klikk
   const navigate = useNavigate()
+  // Regner ut de tre billigste byene basert på prisdataen over
   const treBilligste = hentTreBilligste(BYDATA)
 
-  const [biler, setBiler] = useState([])
+  // State som lagrer byene som hentes fra Firestore til avstemningen
+  const [byer, setByer] = useState([])
+  // State som holder styr på om data fortsatt lastes
   const [loading, setLoading] = useState(true)
+  // State for eventuell feilmelding ved henting eller stemming
   const [error, setError] = useState('')
 
+  // useEffect henter alle byene fra Firestore første gang komponenten vises
   useEffect(() => {
-    const hentBiler = async () => {
+    // Asynkron funksjon som henter collectionen "favorittbyer" fra Firestore
+    const hentFavorittbyer = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'biler'))
-        const bilerFraDb = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+        // Henter alle dokumentene i collectionen
+        const querySnapshot = await getDocs(collection(db, 'favorittbyer'))
+        // Mapper dokumentene til vanlige JavaScript-objekter med id og felter
+        const byerFraDb = querySnapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
         }))
-        setBiler(bilerFraDb)
+        // Lagrer dataene i state så de kan vises på siden
+        setByer(byerFraDb)
       } catch (err) {
-        console.error('Feil ved henting av biler:', err)
-        setError('Kunne ikke hente biler fra Firebase.')
+        // Logger feilen i konsollen og viser melding på siden
+        console.error('Feil ved henting av favorittbyer:', err)
+        setError('Kunne ikke hente favorittbyer fra Firebase.')
       } finally {
+        // Stopper loading-status når kallene er ferdige
         setLoading(false)
       }
     }
 
-    hentBiler()
+    // Kaller funksjonen som henter bydata
+    hentFavorittbyer()
   }, [])
 
+  // Funksjon som øker stemmetallet på valgt by med 1 i Firestore
+  const stemPåBy = async (byId) => {
+    try {
+      // Lager en referanse til dokumentet for byen det stemmes på
+      const byRef = doc(db, 'favorittbyer', byId)
+
+      // Oppdaterer feltet "stemmer" ved å øke det atomisk med 1
+      await updateDoc(byRef, {
+        stemmer: increment(1),
+      })
+
+      // Oppdaterer lokal state så brukeren ser ny verdi med en gang
+      setByer((forrigeByer) =>
+        forrigeByer.map((by) =>
+          by.id === byId ? { ...by, stemmer: (by.stemmer || 0) + 1 } : by
+        )
+      )
+    } catch (err) {
+      // Logger feil og viser melding hvis stemmingen mislykkes
+      console.error('Feil ved stemming på by:', err)
+      setError('Kunne ikke registrere stemmen din. Prøv igjen.')
+    }
+  }
+
+  // Returnerer JSX-en som rendrer hele forsiden
   return (
     <main
       className="page-wrapper"
@@ -165,23 +211,29 @@ function Hjem() {
         ))}
       </section>
 
-      {/* Firebase test-seksjon - biler fra Firestore */}
+      {/* Firebase-seksjon som lar brukeren stemme på favorittby */}
       <section
         className="content-section"
         style={{ marginTop: '3rem', maxWidth: '1200px' }}
       >
-        <span className="hero-badge">Firebase test</span>
-        <h2 style={{ marginBottom: '1rem' }}>Biler fra Firestore</h2>
+        {/* Viser seksjonens badge */}
+        <span className="hero-badge">Stem på favorittby</span>
+        {/* Viser seksjonens overskrift */}
+        <h2 style={{ marginBottom: '1rem' }}>Hvilken norsk øl-by er din favoritt?</h2>
 
-        {loading && <p>Laster biler...</p>}
+        {/* Viser lastemelding mens byene hentes */}
+        {loading && <p>Laster byer...</p>}
 
+        {/* Viser eventuell feilmelding */}
         {error && <p>{error}</p>}
 
-        {!loading && !error && biler.length === 0 && (
-          <p>Ingen biler funnet i collection "biler".</p>
+        {/* Viser melding hvis ingen byer finnes i databasen */}
+        {!loading && !error && byer.length === 0 && (
+          <p>Ingen byer funnet i collection "favorittbyer".</p>
         )}
 
-        {!loading && !error && biler.length > 0 && (
+        {/* Viser byene i et grid når data er hentet */}
+        {!loading && !error && byer.length > 0 && (
           <div
             style={{
               display: 'grid',
@@ -190,22 +242,31 @@ function Hjem() {
               marginTop: '1.5rem',
             }}
           >
-            {biler.map((bil) => (
+            {byer.map((by) => (
+              // Hvert kort viser én by og stemmetallet dens
               <article
-                key={bil.id}
+                key={by.id}
                 className="feature-card"
                 style={{ minHeight: '160px' }}
               >
+                {/* Viser bynavnet */}
                 <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>
-                  {bil.navn || bil.merke || 'Bil uten navn'}
+                  {by.navn || 'Ukjent by'}
                 </h3>
 
-                <p><strong>ID:</strong> {bil.id}</p>
+                {/* Viser antall stemmer registrert på byen */}
+                <p style={{ marginBottom: '0.75rem' }}>
+                  <strong>Stemmer:</strong> {by.stemmer ?? 0}
+                </p>
 
-                {bil.merke && <p><strong>Merke:</strong> {bil.merke}</p>}
-                {bil.modell && <p><strong>Modell:</strong> {bil.modell}</p>}
-                {bil.pris && <p><strong>Pris:</strong> {bil.pris}</p>}
-                {bil.år && <p><strong>År:</strong> {bil.år}</p>}
+                {/* Knapp som lar brukeren stemme på denne byen */}
+                <button
+                  type="button"
+                  className="secondary-btn"
+                  onClick={() => stemPåBy(by.id)}
+                >
+                  Stem på {by.navn || 'byen'}
+                </button>
               </article>
             ))}
           </div>
@@ -215,4 +276,5 @@ function Hjem() {
   )
 }
 
+// Eksporterer Hjem-komponenten slik at den kan brukes i App.jsx
 export default Hjem
