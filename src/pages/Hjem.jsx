@@ -68,7 +68,7 @@ function Hjem() {
         <div className="hero-text">
           <span className="hero-badge">Utforsk norsk ølkultur</span>
 
-          <h1>Finn de beste pubene, byene og ølopplevelsene i Norge</h1>
+          <h1>Finn de beste pubene, byene og øl opplevelsene i Norge</h1>
 
           <p>
             Beers of Norway hjelper deg med å oppdage nye steder, planlegge
