@@ -13,7 +13,7 @@ function Hjem() {
     >
       <section className="hero-section">
         <div className="hero-text">
-          <span className="hero-badge">Utforsk nordnorske-norsk ølkultur</span>
+          <span className="hero-badge">Utforsk ksdfvbakdbvnordnorske-norsk ølkultur</span>
 
           <h1>Finn de beste pubene, byene og ølopplevelsene i Norge</h1>
 
