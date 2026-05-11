@@ -20,7 +20,7 @@ function Omoss() {
         <p style={{ color: 'var(--text-soft)', marginTop: '0.75rem', fontSize: '1.05rem', lineHeight: 1.8 }}>
           Beers of Norway er en digital tjeneste som gjør det enklere å finne oversikt over ølutvalg
           i nærheten av deg og priser i norske byer. Målet vårt er å gi deg oppdatert og relevant
-          informasjon om hva en halvliter faktisk koster – akkurat der du befinner deg.
+          informasjon om hva en halvliter faktisk koster – akkurat der du befinner deg!
         </p>
       </section>
 
