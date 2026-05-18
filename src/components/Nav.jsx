@@ -1,46 +1,43 @@
-// Importerer NavLink for navigasjon i React Router
+// Importerer NavLink for navigasjon mellom sidene
+// og useNavigate for å kunne sende brukeren videre med kode
 import { NavLink, useNavigate } from 'react-router-dom'
-// Importerer bilde for logoen i navbaren
+
+// Importerer logo-bildet som skal brukes i navbaren
 import logoImg from '../assets/logo-viking.png'
-// Importerer auth-context for å kunne logge ut brukeren
+
+// Importerer autentisering slik at vi kan sjekke innlogging
+// og logge ut brukeren ved behov
 import { useAuth } from '../context/AuthContext.jsx'
 
-// Definerer navigasjonskomponenten som brukes øverst på alle sider
+// Navigasjonskomponent som vises øverst på alle sider
 function Nav() {
-  // Henter innlogget bruker og logout-funksjonen fra AuthContext
+  // Henter innlogget bruker og logout-funksjon
   const { user, logout } = useAuth()
-  // useNavigate brukes til å sende brukeren til en annen side etter logout
+
+  // Brukes for å navigere programmatisk etter logout
   const navigate = useNavigate()
 
-  // Håndterer klikk på "Logg ut"-knappen og logger ut brukeren fra Firebase
+  // Logger ut brukeren og sender dem tilbake til login-siden
   const handleLogout = async () => {
     try {
       await logout()
-      // Sender brukeren til login-siden etter vellykket logout
       navigate('/login')
     } catch (error) {
-      // Logger eventuelle feil i konsollen for debugging
       console.error('Feil ved logout:', error)
     }
   }
 
-  // Returnerer JSX for navbaren, som gjør at den rendres i toppen av siden
   return (
-    // site-header holder hele navigasjonsområdet øverst på siden
     <header className="site-header">
-      {/* navbar er selve navigasjonslinjen med logo og lenker */}
       <nav className="navbar">
-        {/* NavLink med to="/" gjør at både logo og tekst fungerer som hjem-knapp */}
-        <NavLink to="/" className="logo-link">
-          {/* Viser logo-bildet til venstre i navbaren */}
+        {/* Logoen er en klikkbar lenke til forsiden.
+            Siden den bare inneholder et bilde, får den aria-label for tilgjengelighet. */}
+        <NavLink to="/" className="logo-link" aria-label="Gå til forsiden">
           <img src={logoImg} className="logo" alt="Beers of Norway logo" />
-          {/* Viser navnet ved siden av logoen */}
-          <span className="logo-text">Beersofnorway</span>
         </NavLink>
 
-        {/* nav-links inneholder alle navigasjonsknappene til høyre */}
+        {/* Samler navigasjonslenkene til høyre i navbaren */}
         <div className="nav-links">
-          {/* Lenke til forsiden (Hjem) med aktiv-stil når path er "/" */}
           <NavLink
             to="/"
             end
@@ -51,7 +48,6 @@ function Nav() {
             Hjem
           </NavLink>
 
-          {/* Lenke til siden for Byer */}
           <NavLink
             to="/byer"
             className={({ isActive }) =>
@@ -61,7 +57,6 @@ function Nav() {
             Byer
           </NavLink>
 
-          {/* Lenke til siden for Pubcrawl */}
           <NavLink
             to="/pubcrawl"
             className={({ isActive }) =>
@@ -71,7 +66,6 @@ function Nav() {
             Pubcrawl
           </NavLink>
 
-          {/* Lenke til Om oss-siden */}
           <NavLink
             to="/omoss"
             className={({ isActive }) =>
@@ -81,10 +75,9 @@ function Nav() {
             Om oss
           </NavLink>
 
-          {/* Viser Login og Signup når ingen bruker er innlogget */}
+          {/* Viser Login og Signup når ingen bruker er logget inn */}
           {!user && (
             <>
-              {/* Lenke til login-siden */}
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
@@ -94,7 +87,6 @@ function Nav() {
                 Login
               </NavLink>
 
-              {/* Lenke til signup-siden */}
               <NavLink
                 to="/signup"
                 className={({ isActive }) =>
@@ -106,7 +98,7 @@ function Nav() {
             </>
           )}
 
-          {/* Viser "Logg ut"-knapp når bruker er innlogget */}
+          {/* Viser logout-knapp når bruker er logget inn */}
           {user && (
             <button type="button" onClick={handleLogout} className="nav-btn">
               Logg ut
@@ -118,5 +110,5 @@ function Nav() {
   )
 }
 
-// Eksporterer Nav-komponenten slik at den kan brukes i App.jsx
+// Eksporterer komponenten så den kan brukes i App.jsx
 export default Nav

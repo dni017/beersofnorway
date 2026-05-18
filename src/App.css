@@ -12,10 +12,12 @@
   --shadow-strong: 0 22px 60px rgba(0, 0, 0, 0.65);
 }
 
+/* Gjør at padding og border regnes inn i elementets totale størrelse */
 * {
   box-sizing: border-box;
 }
 
+/* Grunnstil for hele nettsiden */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -24,10 +26,12 @@ body {
   background-color: var(--bg-dark);
 }
 
+/* Fjerner standard understrek på lenker */
 a {
   text-decoration: none;
 }
 
+/* Sticky header som ligger øverst når man scroller */
 .site-header {
   position: sticky;
   top: 0;
@@ -41,6 +45,7 @@ a {
   );
 }
 
+/* Selve navbaren */
 .navbar {
   max-width: 1200px;
   margin: 0 auto;
@@ -56,48 +61,36 @@ a {
   backdrop-filter: blur(10px);
 }
 
-/* NORSK FLAGG-STIL PÅ LOGO-LENKA (hjem-knappen) */
+/* Logo-lenken fungerer som en knapp til forsiden.
+   Bakgrunnen bruker samme gullgradient som den aktive Hjem-knappen. */
 .logo-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.25rem 0.9rem;
+  justify-content: center;
+  padding: 0.45rem 0.85rem;
   border-radius: 999px;
-
-  /* Flagginspirert bakgrunn: rød base med hvit/blå stripe */
-  background: linear-gradient(
-    135deg,
-    #ba0c2f 0%,
-    #ba0c2f 40%,
-    #ffffff 45%,
-    #00205b 55%,
-    #00205b 100%
-  );
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+  transition: transform 0.22s ease, filter 0.22s ease;
 }
 
-/* Liten lysning ved hover for tydelig knappfølelse */
+/* Liten hover-effekt for tydelig knappfølelse */
 .logo-link:hover {
-  filter: brightness(1.07);
+  transform: translateY(-1px);
+  filter: brightness(1.05);
 }
 
+/* Selve logobildet */
 .logo {
   height: 42px;
   width: auto;
   display: block;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
 
-/* Tekst ved siden av logoen (Beersofnorway) */
-.logo-text {
-  margin-left: 0.1rem;
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #ffffff;
-}
-
+/* Samler navigasjonslenkene til høyre i navbaren */
 .nav-links {
   display: flex;
   align-items: center;
@@ -105,6 +98,7 @@ a {
   flex-wrap: wrap;
 }
 
+/* Felles stil for menyknappene */
 .nav-btn {
   color: var(--text-soft);
   font-weight: 600;
@@ -114,17 +108,20 @@ a {
   font-size: 0.94rem;
 }
 
+/* Hover på menyknappene */
 .nav-btn:hover {
   background-color: rgba(255, 255, 255, 0.06);
   color: var(--text-main);
+  transform: translateY(-1px);
 }
 
+/* Aktiv knapp viser hvilken side brukeren er på */
 .nav-btn.active {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   color: #120c05;
 }
 
-/* Side-wrapper med mørk bakgrunn */
+/* Wrapper rundt hele innholdet på sidene */
 .page-wrapper {
   min-height: 100vh;
   padding: 2.2rem 1.5rem 4rem;
@@ -134,13 +131,13 @@ a {
   background-repeat: no-repeat;
 }
 
-/* Inner pages kan ha egen layout, men samme mørke bakgrunn */
+/* Indre layout-wrapper for sider som trenger fleksibel oppbygning */
 .page-inner {
   display: flex;
   align-items: flex-start;
 }
 
-/* Forside / hero */
+/* Hero-seksjonen på forsiden */
 .hero-section {
   max-width: 1200px;
   margin: 2.5rem auto 0;
@@ -150,6 +147,7 @@ a {
   align-items: center;
 }
 
+/* Tekstboksen i hero */
 .hero-text {
   background: radial-gradient(circle at top left, #251a32, #151018 58%, #09070c);
   padding: 2.4rem 2.6rem;
@@ -158,6 +156,7 @@ a {
   border: 1px solid rgba(245, 183, 84, 0.32);
 }
 
+/* Liten badge over hero-tittelen */
 .hero-badge {
   display: inline-block;
   margin-bottom: 1rem;
@@ -172,6 +171,7 @@ a {
   text-transform: uppercase;
 }
 
+/* Hovedoverskrift */
 .hero-text h1 {
   margin: 0 0 1.1rem;
   font-size: clamp(2.4rem, 5vw, 4.4rem);
@@ -179,6 +179,7 @@ a {
   color: var(--text-main);
 }
 
+/* Introtekst under overskriften */
 .hero-text p {
   margin: 0 0 1.8rem;
   max-width: 620px;
@@ -187,12 +188,14 @@ a {
   color: var(--text-soft);
 }
 
+/* Knapper i hero-seksjonen */
 .hero-buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
+/* Felles knappestil */
 .primary-btn,
 .secondary-btn {
   display: inline-flex;
@@ -206,40 +209,46 @@ a {
   transition: all 0.22s ease;
 }
 
+/* Primær knapp */
 .primary-btn {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   color: #120c05;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7);
 }
 
+/* Hover på primær knapp */
 .primary-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
 }
 
+/* Sekundær knapp */
 .secondary-btn {
   background-color: transparent;
   color: var(--text-soft);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+/* Hover på sekundær knapp */
 .secondary-btn:hover {
   background-color: rgba(255, 255, 255, 0.04);
   color: var(--text-main);
 }
 
+/* Hero-bilde wrapper */
 .hero-image-wrapper {
   display: flex;
   justify-content: center;
 }
 
+/* Hero-bildet */
 .hero-image {
   width: min(100%, 460px);
   border-radius: 28px;
   box-shadow: var(--shadow-strong);
 }
 
-/* Kort / seksjoner */
+/* Seksjon med tre kort */
 .features-section {
   max-width: 1200px;
   margin: 3rem auto 0;
@@ -248,6 +257,7 @@ a {
   gap: 1.5rem;
 }
 
+/* Felles kortstil */
 .feature-card,
 .content-section {
   background: radial-gradient(circle at top left, #231b2e, #151118 58%, #070509);
@@ -256,35 +266,40 @@ a {
   box-shadow: var(--shadow-strong);
 }
 
+/* Feature-kort */
 .feature-card {
   padding: 1.8rem;
 }
 
+/* Kortoverskrift */
 .feature-card h2 {
   margin: 0 0 0.75rem;
   font-size: 1.3rem;
   color: var(--text-main);
 }
 
+/* Korttekst */
 .feature-card p {
   margin: 0;
   line-height: 1.7;
   color: var(--text-soft);
 }
 
-/* Innholdssider */
+/* Standard innholdsboks for undersider */
 .content-section {
   max-width: 880px;
   margin: 3rem auto 0;
   padding: 2.3rem;
 }
 
+/* Tittel på innholdssider */
 .content-section h1 {
   margin: 0 0 1rem;
   font-size: clamp(2rem, 3.3vw, 3.1rem);
   color: var(--text-main);
 }
 
+/* Tekst på innholdssider */
 .content-section p {
   margin: 0;
   font-size: 1.02rem;
@@ -292,7 +307,7 @@ a {
   color: var(--text-soft);
 }
 
-/* Skjema/innlogging (auth) */
+/* Skjemaoppsett */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -300,6 +315,7 @@ a {
   margin-top: 1.5rem;
 }
 
+/* Inputfelt */
 .auth-input {
   width: 100%;
   min-height: 46px;
@@ -311,16 +327,22 @@ a {
   font-size: 0.98rem;
 }
 
+/* Placeholder-farge */
 .auth-input::placeholder {
   color: var(--text-muted);
 }
 
-/* Responsivitet */
+/* Tilpasning for mindre skjermer */
 @media (max-width: 900px) {
   .navbar {
     flex-direction: column;
     align-items: flex-start;
     border-radius: 24px;
+  }
+
+  .logo-link {
+    width: auto;
+    justify-content: center;
   }
 
   .nav-links {
@@ -342,6 +364,7 @@ a {
   }
 }
 
+/* Ekstra mobiltilpasning */
 @media (max-width: 560px) {
   .site-header {
     padding: 0.6rem 1rem 0;
