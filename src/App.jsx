@@ -20,6 +20,7 @@ import PubGolfTromso from './pages/PubGolfTromso'
 import Omoss from './pages/Omoss'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import AddPub from './pages/AddPub'
 import './App.css'
 
 function App() {
@@ -30,6 +31,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Hjem />} />
         <Route path="/byer" element={<Byer />} />
+        <Route path="/addpub" element={<AddPub />} />
+
+
 
         {/* Bysider */}
         <Route path="/byer/tromso" element={<Tromso />} />
